@@ -12,7 +12,11 @@ nbproject
 # windows thumbnail cache
 Thumbs.db
 
-# composer vendor dir
+# environment config
+.env
+
+# composer vendor dir and lock
+composer.lock
 /vendor
 
 # Mac DS_Store Files

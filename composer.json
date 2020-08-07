@@ -10,7 +10,8 @@
     "laminas/laminas-diactoros": "^2.3",
     "illuminate/database": "^7.23",
     "robmorgan/phinx": "^0.12.3",
-    "vlucas/phpdotenv": "^5.1"
+    "vlucas/phpdotenv": "^5.1",
+    "php-di/php-di": "^6.2"
   },
   "autoload": {
     "psr-4": {

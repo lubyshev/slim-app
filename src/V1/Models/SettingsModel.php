@@ -9,9 +9,9 @@ class SettingsModel implements SettingsModelInterface
 {
     const CLIENT_SPEED_TEST = 'speedTest';
 
-    private string $apiKey;
+    protected string $apiKey;
 
-    private array $apiClients;
+    protected array $apiClients;
 
     /**
      * @inheritDoc
@@ -20,9 +20,18 @@ class SettingsModel implements SettingsModelInterface
     {
         $keyPrefix        = strtoupper($this->getVersion());
         $this->apiKey     = (string)env($keyPrefix.'_API_KEY');
-        $this->apiClients = [
-            self::CLIENT_SPEED_TEST => (string)env($keyPrefix.'_SPEED_TEST_SECRET'),
-        ];
+        $this->apiClients = [];
+        $clients          = explode(',', env($keyPrefix.'_API_CLIENTS'));
+        foreach ($clients as $client) {
+            [$name, $key] = explode('=', $client);
+            $name = trim($name);
+            $key  = strtoupper(trim($key));
+            $this->apiClients[$name]
+                  = (string)env($keyPrefix.'_'.$key.'_SECRET');
+            if (empty($this->apiClients[$name]) || empty($name)) {
+                unset($this->apiClients[$name]);
+            }
+        }
     }
 
     /**

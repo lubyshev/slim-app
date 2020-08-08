@@ -4,13 +4,11 @@ Content-Type: application/json
 
 {
   "apiKey": "26e19771-55c8-4581-a6cc-4acad8ff88db",
-  "apiSecret": "7d1da9e9-f254-4a22-b785-0046789ff37d"
+  "apiSecret": "7d1da9e9-f254-4a22-b785-0046789ff37d",
+  "vendor": "Honor"
 }
 
-> {%
-client.global.set("myToken", response.body.token);
-
-%}
+> {% client.global.set("myToken", response.body.token); %}
 
 ### Send POST request with body as parameters
 POST http://signal.loc/api/v1/route
@@ -18,9 +16,22 @@ Content-Type: application/json
 
 {
   "token": "{{myToken}}",
-  "provider": "tele2",
   "point": {
       "x": 103.2345,
       "y": 172.45
-  }
+  },
+  "data": [
+    {
+      "provider": "tele2",
+      "signalVolume": 5,
+      "towerId": 112334234,
+      "towersCount": 2
+    },
+    {
+      "provider": "mts",
+      "signalVolume": 4,
+      "towerId": 112334232,
+      "towersCount": 1
+    }
+  ]
 }

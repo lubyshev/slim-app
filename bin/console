@@ -3,12 +3,14 @@
 
 use DI\Container;
 
-function container():Container {
-  static $container;
-  if(!$container) {
-      $container = require __DIR__ . '/../config/bootstrap.php';
-  }
-  return $container;
+function container(): Container
+{
+    static $container;
+    if (!$container) {
+        $container = require __DIR__.'/../config/bootstrap.php';
+    }
+
+    return $container;
 }
 
 container()->get('console')->run();

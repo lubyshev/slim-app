@@ -13,12 +13,6 @@ $container = [
         return require __DIR__.'/settings.php';
     },
 
-    App::class => function (ContainerInterface $container) {
-        AppFactory::setContainer($container);
-
-        return AppFactory::create();
-    },
-
     'db' => function () {
         $capsule = new Capsule;
         $capsule->addConnection(require __DIR__.'/db.php');
@@ -32,6 +26,12 @@ $container = [
 
 // Только для WEB
 if ('cli' !== php_sapi_name()) {
+    $container[App::class]             =
+        function (ContainerInterface $container) {
+            AppFactory::setContainer($container);
+
+            return AppFactory::create();
+        };
     $container[ErrorMiddleware::class] =
         function (ContainerInterface $container) {
             $app      = $container->get(App::class);

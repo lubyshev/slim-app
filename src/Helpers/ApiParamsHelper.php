@@ -6,7 +6,7 @@ namespace App\Helpers;
 class ApiParamsHelper
 {
     /**
-     * Создает GUID в формате "XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX".
+     * Создает GUID.
      *
      * @return string
      */
@@ -24,4 +24,4 @@ class ApiParamsHelper
 
 }
 
-// var_dump(ApiParamsHelper::createGuid());
+ var_dump(ApiParamsHelper::createGuid());

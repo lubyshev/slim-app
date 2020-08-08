@@ -12,6 +12,7 @@ $settings = [];
 
 // Path settings
 $settings['root'] = dirname(__DIR__);
+$settings['src'] = $settings['root'] . '/src';
 $settings['temp'] = $settings['root'] . '/tmp';
 $settings['public'] = $settings['root'] . '/public';
 

@@ -12,7 +12,8 @@
     "illuminate/database": "^7.23",
     "robmorgan/phinx": "^0.12.3",
     "vlucas/phpdotenv": "^5.1",
-    "php-di/php-di": "^6.2"
+    "php-di/php-di": "^6.2",
+    "symfony/console": "^5.1"
   },
   "autoload": {
     "psr-4": {

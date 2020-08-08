@@ -3,20 +3,13 @@ declare(strict_types=1);
 
 namespace App\V1\Controllers;
 
+use App\Controllers\ActionAbstract;
 use App\Helpers\ApiParamsHelper;
-use App\Models\SettingsModelInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class AuthAction
+class AuthAction extends ActionAbstract
 {
-    private SettingsModelInterface $settings;
-
-    public function __construct(SettingsModelInterface $settings)
-    {
-        $this->settings = $settings;
-    }
-
     public function __invoke(
         ServerRequestInterface $request,
         ResponseInterface $response

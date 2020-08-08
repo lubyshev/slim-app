@@ -6,15 +6,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
 return function (App $app) {
-    $app->get('/', function (
-        ServerRequestInterface $request,
-        ResponseInterface $response
-    ) {
-        $response->getBody()->write('Hello, Kitty!');
-
-        return $response;
-    });
-
     $app->post('/api/{version:v1|v2}/{action:auth|route}', function (
         ServerRequestInterface $request,
         ResponseInterface $response,
@@ -32,6 +23,6 @@ return function (App $app) {
         $settings = new $settingsClass();
         $settings->init();
 
-        return (new $actionClass($settings))($request, $response, $args);
+        return (new $actionClass($app, $settings))($request, $response, $args);
     });
 };

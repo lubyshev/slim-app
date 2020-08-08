@@ -6,7 +6,7 @@ namespace App\Models;
 interface SettingsModelInterface
 {
     /**
-     * Init class.
+     * Initialize class.
      */
     public function init(): void;
 

@@ -14,11 +14,12 @@ class AuthAction extends ActionAbstract
         ServerRequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {
-        $data   = [
+        $apiClient = null;
+        $data      = [
             'success' => false,
             'version' => $this->settings->getVersion(),
         ];
-        $params = $request->getParsedBody();
+        $params    = $request->getParsedBody();
         if (!isset($params['apiKey'], $params['apiSecret'])) {
             $data['error'] = [
                 'code'    => 400,
@@ -33,13 +34,7 @@ class AuthAction extends ActionAbstract
             }
         }
         if (!isset($data['error'])) {
-            $apiClient = null;
-            foreach ($this->settings->getSecrets() as $client => $secret) {
-                if ($secret === $params['apiSecret']) {
-                    $apiClient = $client;
-                    break;
-                }
-            }
+            $apiClient = $this->getApiClient($params['apiSecret']);
             if (!$apiClient) {
                 $data['error'] = [
                     'code'    => 403,
@@ -56,9 +51,20 @@ class AuthAction extends ActionAbstract
         $response->getBody()->write(json_encode($data));
         $code = !isset($data['error']) ? 200 : $data['error']['code'];
 
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($code);
+        return $response->withStatus($code);
+    }
+
+    private function getApiClient(string $apiSecret): ?string
+    {
+        $apiClient = null;
+        foreach ($this->settings->getSecrets() as $client => $secret) {
+            if ($secret === $apiSecret) {
+                $apiClient = $client;
+                break;
+            }
+        }
+
+        return $apiClient;
     }
 
 }

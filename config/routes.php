@@ -23,6 +23,9 @@ return function (App $app) {
         $settings = new $settingsClass();
         $settings->init();
 
-        return (new $actionClass($app, $settings))($request, $response, $args);
+        return
+            (new $actionClass($app, $settings))
+            ($request, $response, $args)
+                ->withHeader('Content-Type', 'application/json');
     });
 };

@@ -1,0 +1,26 @@
+### Send POST request with json body
+POST http://signal.loc/api/v1/auth
+Content-Type: application/json
+
+{
+  "apiKey": "26e19771-55c8-4581-a6cc-4acad8ff88db",
+  "apiSecret": "7d1da9e9-f254-4a22-b785-0046789ff37d"
+}
+
+> {%
+client.global.set("myToken", response.body.token);
+
+%}
+
+### Send POST request with body as parameters
+POST http://signal.loc/api/v1/route
+Content-Type: application/json
+
+{
+  "token": "{{myToken}}",
+  "provider": "tele2",
+  "point": {
+      "x": 103.2345,
+      "y": 172.45
+  }
+}

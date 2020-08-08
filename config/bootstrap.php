@@ -4,6 +4,7 @@ use DI\ContainerBuilder;
 use Slim\App;
 
 require_once __DIR__ . '/../vendor/autoload.php';
+(Dotenv\Dotenv::createImmutable(dirname(__DIR__)))->load();
 
 $containerBuilder = new ContainerBuilder();
 

@@ -19,6 +19,9 @@ Thumbs.db
 composer.lock
 /vendor
 
+# log entries
+/log
+
 # Mac DS_Store Files
 .DS_Store
 

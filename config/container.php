@@ -31,6 +31,17 @@ return [
         );
     },
 
+    \App\V1\Controllers\AuthAction::class => function (ContainerInterface $container) {
+        return new \App\V1\Controllers\AuthAction(
+            new \App\V1\Models\SettingsModel()
+        );
+    },
+    \App\V2\Controllers\AuthAction::class => function (ContainerInterface $container) {
+        return new \App\V2\Controllers\AuthAction(
+            new \App\V2\Models\SettingsModel()
+        );
+    },
+
     'db' => function (ContainerInterface $container) {
         $capsule = new Capsule;
         $capsule->addConnection(require 'db.php');

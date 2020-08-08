@@ -13,7 +13,10 @@ class SettingsModel implements SettingsModelInterface
 
     private array $apiClients;
 
-    public function __construct()
+    /**
+     * @inheritDoc
+     */
+    public function init(): void
     {
         $keyPrefix        = strtoupper($this->getVersion());
         $this->apiKey     = (string)env($keyPrefix.'_API_KEY');

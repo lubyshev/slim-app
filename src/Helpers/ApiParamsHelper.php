@@ -23,5 +23,4 @@ class ApiParamsHelper
     }
 
 }
-
- var_dump(ApiParamsHelper::createGuid());
+// var_dump(ApiParamsHelper::createGuid());

@@ -7,8 +7,6 @@ use App\Models\SettingsModelInterface;
 
 class SettingsModel implements SettingsModelInterface
 {
-    const CLIENT_SPEED_TEST = 'speedTest';
-
     protected string $apiKey;
 
     protected array $apiClients;
@@ -25,17 +23,19 @@ class SettingsModel implements SettingsModelInterface
         foreach ($clients as $client) {
             [$name, $key] = explode('=', $client);
             $name = trim($name);
-            $key  = strtoupper(trim($key));
-            $this->apiClients[$name]
-                  = (string)env($keyPrefix.'_'.$key.'_SECRET');
-            if (empty($this->apiClients[$name]) || empty($name)) {
-                unset($this->apiClients[$name]);
+            if (!empty($name)) {
+                $key = strtoupper(trim($key));
+                $this->apiClients[$name]
+                     = (string)env($keyPrefix.'_'.$key.'_SECRET');
+                if (empty($this->apiClients[$name])) {
+                    unset($this->apiClients[$name]);
+                }
             }
         }
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getApiKey(): string
     {
@@ -43,7 +43,7 @@ class SettingsModel implements SettingsModelInterface
     }
 
     /**
-     * @return array
+     * @inheritDoc
      */
     public function getSecrets(): array
     {
@@ -51,7 +51,7 @@ class SettingsModel implements SettingsModelInterface
     }
 
     /**
-     * @return string
+     * @inheritDoc
      */
     public function getVersion(): string
     {

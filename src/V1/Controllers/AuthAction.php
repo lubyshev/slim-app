@@ -20,20 +20,12 @@ class AuthAction extends ActionAbstract
             'version' => $this->settings->getVersion(),
         ];
         $params    = $request->getParsedBody();
-        if (!isset($params['apiKey'], $params['apiSecret'])) {
+        if ($this->settings->getApiKey() !== $params['apiKey']) {
             $data['error'] = [
-                'code'    => 400,
-                'message' => 'Bad request.',
+                'code'    => 404,
+                'message' => 'Page not found.',
             ];
         } else {
-            if ($this->settings->getApiKey() !== $params['apiKey']) {
-                $data['error'] = [
-                    'code'    => 404,
-                    'message' => 'Page not found.',
-                ];
-            }
-        }
-        if (!isset($data['error'])) {
             $apiClient = $this->getApiClient($params['apiSecret']);
             if (!$apiClient) {
                 $data['error'] = [
@@ -67,4 +59,10 @@ class AuthAction extends ActionAbstract
         return $apiClient;
     }
 
+    protected function validateParams(ServerRequestInterface $request): bool
+    {
+        $params = $request->getParsedBody();
+
+        return isset($params['apiKey'], $params['apiSecret']);
+    }
 }

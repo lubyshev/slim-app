@@ -25,9 +25,14 @@ return function (App $app) {
             $settings = new $settingsClass();
             $settings->init();
 
-            return
-                (new $actionClass($app, $settings))
-                ($request, $response, $args)
-                    ->withHeader('Content-Type', 'application/json');
+            /** @var \App\Controllers\ActionAbstract $action */
+            $action   = new $actionClass($app, $settings);
+            $response = $action->beforeAction($request, $response);
+            if (200 !== $response->getStatusCode()) {
+                return $response->withHeader('Content-Type', 'application/json');
+            }
+
+            return ($action)($request, $response)
+                ->withHeader('Content-Type', 'application/json');
         });
 };

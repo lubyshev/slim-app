@@ -20,4 +20,8 @@ class RouteAction extends ActionAbstract
         return $response->withStatus($code);
     }
 
+    protected function validateParams(ServerRequestInterface $request): bool
+    {
+        return true;
+    }
 }

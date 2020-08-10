@@ -46,7 +46,7 @@ class AuthActionTest extends TestCase
      */
     public function authProvider(): array
     {
-        return require __DIR__.'/Providers/AuthTestProvider.php';
+        return require __DIR__.'/Providers/AuthActionTestProvider.php';
     }
 
     /**

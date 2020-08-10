@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Services\VersionControlService as VersionControl;
+use Fig\Http\Message\StatusCodeInterface as StatusCodes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -38,7 +39,8 @@ return function (App $app) {
                 /** @var \App\Controllers\ActionAbstract $action */
                 $action   = new $actionClass($app, $settings);
                 $response = $action->beforeAction($request, $response);
-                if (200 === $response->getStatusCode()) {
+
+                if (StatusCodes::STATUS_OK === $response->getStatusCode()) {
                     $response = ($action)($request, $response);
                 }
             }

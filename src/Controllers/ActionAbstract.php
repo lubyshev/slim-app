@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Models\SettingsModelInterface;
+use Fig\Http\Message\StatusCodeInterface as StatusCodes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -29,11 +30,11 @@ abstract class ActionAbstract
                 'success' => false,
                 'version' => $this->settings->getVersion(),
                 'error'   => [
-                    'code'    => 400,
+                    'code'    => StatusCodes::STATUS_BAD_REQUEST,
                     'message' => 'Bad request.',
                 ],
             ]));
-            $response = $response->withStatus(400);
+            $response = $response->withStatus(StatusCodes::STATUS_BAD_REQUEST);
         }
 
         return $response;

@@ -8,7 +8,8 @@ require_once __DIR__.'/../../vendor/autoload.php';
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 use Dotenv\Dotenv;
-use \Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseInterface;
+use Fig\Http\Message\StatusCodeInterface as StatusCodes;
 
 (Dotenv::createImmutable(realpath(__DIR__.'/../..')))->load();
 
@@ -59,11 +60,11 @@ class AuthActionTest extends TestCase
     private function checkRequestResult(int $number, ResponseInterface $response, string $message)
     {
         $expectedCode = ([
-            1 => 410, // Устаревшее API.
-            2 => 400, // Неверные параметры запроса.
-            3 => 200, // OK.
-            4 => 404, // Неверный параметр apiKey.
-            5 => 403, // Неверный параметр apiSecret.
+            1 => StatusCodes::STATUS_GONE, // Устаревшее API.
+            2 => StatusCodes::STATUS_BAD_REQUEST, // Неверные параметры запроса.
+            3 => StatusCodes::STATUS_OK, // OK.
+            4 => StatusCodes::STATUS_NOT_FOUND, // Неверный параметр apiKey.
+            5 => StatusCodes::STATUS_FORBIDDEN, // Неверный параметр apiSecret.
         ])[$number];
         $this->assertEquals($expectedCode, $response->getStatusCode(), $message);
     }

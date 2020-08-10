@@ -5,6 +5,7 @@ namespace App\V1\Controllers;
 
 use App\Controllers\ActionAbstract;
 use App\Helpers\ApiParamsHelper;
+use Fig\Http\Message\StatusCodeInterface as StatusCodes;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,14 +23,14 @@ class AuthAction extends ActionAbstract
         $params    = $request->getParsedBody();
         if ($this->settings->getApiKey() !== $params['apiKey']) {
             $data['error'] = [
-                'code'    => 404,
+                'code'    => StatusCodes::STATUS_NOT_FOUND,
                 'message' => 'Page not found.',
             ];
         } else {
             $apiClient = $this->getApiClient($params['apiSecret']);
             if (!$apiClient) {
                 $data['error'] = [
-                    'code'    => 403,
+                    'code'    => StatusCodes::STATUS_FORBIDDEN,
                     'message' => 'Access denied.',
                 ];
             }

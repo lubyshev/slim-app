@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use Fig\Http\Message\StatusCodeInterface as StatusCodes;
 use Psr\Http\Message\ResponseInterface;
 
 class VersionControlService
@@ -32,12 +33,12 @@ class VersionControlService
             'version'       => strtolower($version),
             'actualVersion' => strtolower(self::ACTUAL_VERSION),
             'error'         => [
-                'code'    => 410,
+                'code'    => StatusCodes::STATUS_GONE,
                 'message' => 'Gone.',
             ],
         ]));
 
-        return $response->withStatus(410);
+        return $response->withStatus(StatusCodes::STATUS_GONE);
     }
 
     public static function renderInvalidAction(
@@ -48,12 +49,12 @@ class VersionControlService
             'success' => false,
             'version' => strtolower($version),
             'error'   => [
-                'code'    => 404,
+                'code'    => StatusCodes::STATUS_NOT_FOUND,
                 'message' => 'Page not found.',
             ],
         ]));
 
-        return $response->withStatus(404);
+        return $response->withStatus(StatusCodes::STATUS_NOT_FOUND);
     }
 
 }

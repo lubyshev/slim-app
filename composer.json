@@ -3,6 +3,7 @@
     "php": ">=7.4",
     "ext-json": "*",
     "ext-openssl": "*",
+    "ext-zend-opcache": "*",
     "slim/slim": "4.*",
     "slim/psr7": "^1.1",
     "nyholm/psr7": "^1.3",

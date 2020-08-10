@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class VersionControlService
 {
-    private const DEPRECATED_VERSIONS = [];
+    private const DEPRECATED_VERSIONS = ['V0'];
     private const ACTUAL_VERSION      = 'V1';
     private const VERSION_ACTIONS     = [
         'V1' => ['Auth', 'Route'],
@@ -26,8 +26,7 @@ class VersionControlService
     public static function renderDeprecatedVersion(
         string $version,
         ResponseInterface $response
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $response->getBody()->write(json_encode([
             'success'       => false,
             'version'       => strtolower($version),
@@ -44,12 +43,11 @@ class VersionControlService
     public static function renderInvalidAction(
         string $version,
         ResponseInterface $response
-    ): ResponseInterface
-    {
+    ): ResponseInterface {
         $response->getBody()->write(json_encode([
-            'success'       => false,
-            'version'       => strtolower($version),
-            'error'         => [
+            'success' => false,
+            'version' => strtolower($version),
+            'error'   => [
                 'code'    => 404,
                 'message' => 'Page not found.',
             ],

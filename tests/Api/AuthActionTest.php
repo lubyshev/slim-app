@@ -15,12 +15,18 @@ class AuthActionTest extends TestCase
 {
 
     /**
+     * Тест аутентификации.
+     *
+     * @param int    $number Номер теста.
+     * @param string $path   Путь URI.
+     * @param array  $data   Данные для POST.
+     *
      * @dataProvider authProvider
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testPost(int $number, string $path, array $data)
     {
-        $client = new Client([
+        $client   = new Client([
             'base_uri'    => env('HTTP_URI'),
             'timeout'     => 2.0,
             'http_errors' => false,
@@ -28,41 +34,37 @@ class AuthActionTest extends TestCase
         $response = $client->post($path, [
             'json' => $data,
         ]);
+        $message  = sprintf(
+            '%d. Status code: %d, body: "%s".',
+            $number,
+            $response->getStatusCode(),
+            $response->getBody()
+        );
         switch ($number) {
             case 1:
-                $this->assertEquals(410, $response->getStatusCode(),
-                    sprintf('%d. Status code: %d, body: "%s".', $number, $response->getStatusCode(),
-                        $response->getBody())
-                );
+                $this->assertEquals(410, $response->getStatusCode(), $message);
                 break;
             case 2:
-                $this->assertEquals(400, $response->getStatusCode(),
-                    sprintf('%d. Status code: %d, body: "%s".', $number, $response->getStatusCode(),
-                        $response->getBody())
-                );
+                $this->assertEquals(400, $response->getStatusCode(), $message);
                 break;
             case 3:
-                $this->assertEquals(200, $response->getStatusCode(),
-                    sprintf('%d. Status code: %d, body: "%s".', $number, $response->getStatusCode(),
-                        $response->getBody())
-                );
+                $this->assertEquals(200, $response->getStatusCode(), $message);
                 break;
             case 4:
-                $this->assertEquals(404, $response->getStatusCode(),
-                    sprintf('%d. Status code: %d, body: "%s".', $number, $response->getStatusCode(),
-                        $response->getBody())
-                );
+                $this->assertEquals(404, $response->getStatusCode(), $message);
                 break;
             case 5:
-                $this->assertEquals(403, $response->getStatusCode(),
-                    sprintf('%d. Status code: %d, body: "%s".', $number, $response->getStatusCode(),
-                        $response->getBody())
-                );
+                $this->assertEquals(403, $response->getStatusCode(), $message);
                 break;
         }
     }
 
-    public function authProvider()
+    /**
+     * Генератор данных для теста.
+     *
+     * @return array[]
+     */
+    public function authProvider(): array
     {
         return [
             [

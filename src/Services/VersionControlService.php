@@ -52,7 +52,7 @@ class VersionControlService
             'actualVersion' => strtolower(self::ACTUAL_VERSION),
             'error'         => [
                 'code'    => 404,
-                'message' => 'Not found.',
+                'message' => 'Page not found.',
             ],
         ]));
 

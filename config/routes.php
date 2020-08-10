@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+use App\Services\VersionControlService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -13,26 +14,30 @@ return function (App $app) {
             ResponseInterface $response,
             array $args
         ) use ($app) {
-            $actionClass   = sprintf(
-                '\App\%s\Controllers\%sAction',
-                strtoupper($args['version']), ucfirst($args['action'])
-            );
-            $settingsClass = sprintf(
-                '\App\%s\Models\SettingsModel',
-                strtoupper($args['version'])
-            );
+            $version = strtoupper($args['version']);
+            if (VersionControlService::isDeprecated($version)) {
+                $response = VersionControlService::renderDeprecatedVersion($version, $response);
+            } else {
+                $actionClass   = sprintf(
+                    '\App\%s\Controllers\%sAction',
+                    $version, ucfirst($args['action'])
+                );
+                $settingsClass = sprintf(
+                    '\App\%s\Models\SettingsModel',
+                    $version
+                );
 
-            $settings = new $settingsClass();
-            $settings->init();
+                $settings = new $settingsClass();
+                $settings->init();
 
-            /** @var \App\Controllers\ActionAbstract $action */
-            $action   = new $actionClass($app, $settings);
-            $response = $action->beforeAction($request, $response);
-            if (200 !== $response->getStatusCode()) {
-                return $response->withHeader('Content-Type', 'application/json');
+                /** @var \App\Controllers\ActionAbstract $action */
+                $action   = new $actionClass($app, $settings);
+                $response = $action->beforeAction($request, $response);
+                if (200 === $response->getStatusCode()) {
+                    $response = ($action)($request, $response);
+                }
             }
 
-            return ($action)($request, $response)
-                ->withHeader('Content-Type', 'application/json');
+            return $response->withHeader('Content-Type', 'application/json');
         });
 };

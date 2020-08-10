@@ -7,8 +7,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
 
 return function (App $app) {
+    $versions = implode('|', ['v1']);
+    $actions  = implode('|', ['auth', 'route']);
     $app->post(
-        '/api/{version:v1|v2}/{action:auth|route}',
+        "/api/{version:{$versions}}/{action:{$actions}}",
         function (
             ServerRequestInterface $request,
             ResponseInterface $response,

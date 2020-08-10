@@ -38,12 +38,12 @@ class AuthAction extends ActionAbstract
             $data['success'] = true;
             $data['client']  = $apiClient;
             $data['token']   = ApiParamsHelper::createGuid();
+        } else {
+            $response = $response->withStatus($data['error']['code']);
         }
-
         $response->getBody()->write(json_encode($data));
-        $code = !isset($data['error']) ? 200 : $data['error']['code'];
 
-        return $response->withStatus($code);
+        return $response;
     }
 
     private function getApiClient(string $apiSecret): ?string

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use App\Services\VersionControlService;
+use App\Services\VersionControlService as VersionControl;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
@@ -16,10 +16,10 @@ return function (App $app) {
         ) use ($app) {
             $version    = strtoupper($args['version']);
             $actionName = ucfirst($args['action']);
-            if (VersionControlService::isDeprecated($version)) {
-                $response = VersionControlService::renderDeprecatedVersion($version, $response);
-            } elseif (!VersionControlService::isValidAction($version, $actionName)) {
-                $response = VersionControlService::renderInvalidAction($version, $response);
+            if (VersionControl::isDeprecated($version)) {
+                $response = VersionControl::renderDeprecatedVersion($version, $response);
+            } elseif (!VersionControl::isValidAction($version, $actionName)) {
+                $response = VersionControl::renderInvalidAction($version, $response);
             } else {
                 $actionClass   = sprintf(
                     '\App\%s\Controllers\%sAction',

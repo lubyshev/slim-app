@@ -33,8 +33,7 @@ abstract class ActionAbstract
                     'message' => 'Bad request.',
                 ],
             ]));
-
-            return $response->withStatus(400);
+            $response = $response->withStatus(400);
         }
 
         return $response;

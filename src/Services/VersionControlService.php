@@ -49,7 +49,6 @@ class VersionControlService
         $response->getBody()->write(json_encode([
             'success'       => false,
             'version'       => strtolower($version),
-            'actualVersion' => strtolower(self::ACTUAL_VERSION),
             'error'         => [
                 'code'    => 404,
                 'message' => 'Page not found.',

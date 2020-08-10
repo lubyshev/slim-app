@@ -14,13 +14,16 @@ return function (App $app) {
             ResponseInterface $response,
             array $args
         ) use ($app) {
-            $version = strtoupper($args['version']);
+            $version    = strtoupper($args['version']);
+            $actionName = ucfirst($args['action']);
             if (VersionControlService::isDeprecated($version)) {
                 $response = VersionControlService::renderDeprecatedVersion($version, $response);
+            } elseif (!VersionControlService::isValidAction($version, $actionName)) {
+                $response = VersionControlService::renderInvalidAction($version, $response);
             } else {
                 $actionClass   = sprintf(
                     '\App\%s\Controllers\%sAction',
-                    $version, ucfirst($args['action'])
+                    $version, $actionName
                 );
                 $settingsClass = sprintf(
                     '\App\%s\Models\SettingsModel',

@@ -1,6 +1,8 @@
+# apache htaccess
+.htaccess
+
 # phpstorm project files
 .idea
-.htaccess
 # netbeans project files
 nbproject
 
@@ -8,6 +10,9 @@ nbproject
 .buildpath
 .project
 .settings
+
+# phpunit
+.phpunit.result.cache
 
 # windows thumbnail cache
 Thumbs.db
